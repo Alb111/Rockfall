@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <termios.h>
+#include <string.h>
 
 void set_input_mode(void)
 {
@@ -28,7 +29,7 @@ void startGame(void)
 
      set_input_mode();
 
-     printf( "%s", titleArt);
+     printf("%s", titleArt);
 
      printf("Press Enter to start playing \n");
 
@@ -47,6 +48,42 @@ void startGame(void)
      printf("Switch to playing state\n");
 }
 
-void printQ(void){
+void printQ(void)
+{
      printf("askdlj;sldfa;lsk");
+}
+
+void printFrame(int **gameArray)
+{
+     char *toPrint = malloc(10000 * sizeof(char));
+     for (int r = 0; r < 7; r++)
+     {
+          for (int pr = 0; pr < 3; pr++)
+          {
+               for (int c = 0; c < 7; c++)
+               {
+                    switch (gameArray[r][c])
+                    {
+                    case 2:
+                         strcat(toPrint, air[pr]);
+                         break;
+
+                    case 12:
+                         strcat(toPrint, playerGround[pr]);
+                         break;
+
+                    case 3:
+                         strcat(toPrint, groundAir[pr]);
+                         break;
+
+                    default:
+                         printf("ERROR");
+                         break;
+                    }
+               }
+          strcat(toPrint," \n");
+          }
+     }
+     printf(toPrint);
+     free(toPrint);
 }

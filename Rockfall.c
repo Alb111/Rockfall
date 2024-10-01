@@ -6,6 +6,7 @@ int main()
 {
      startGame();
      int **lol = initGameArray();
+     printFrame(lol);
      if (freeGameArray(lol) == 0)
      {
           return 0;
