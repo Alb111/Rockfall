@@ -24,7 +24,7 @@ int **initGameArray(void)
      {
           for (int k = 0; k < 7; k++)
           {
-               if (i < 5)
+               if (i < 6)
                {
                     // top part should be all air at first 0010
                     gameArray[i][k] = 2;
@@ -32,13 +32,13 @@ int **initGameArray(void)
                else
                {
                     // last row should be ground with middle cell having a player 1000 or 1100
-                    if (k == 2)
+                    if (k == 3)
                     {
+
                          gameArray[i][k] = 12;
                     }
                     else
                     {
-
                          gameArray[i][k] = 8;
                     }
                }
@@ -49,7 +49,7 @@ int **initGameArray(void)
 
 int freeGameArray(int **gameArray)
 {
-     for (int i = 0; i < 6; i++)
+     for (int i = 0; i < 7; i++)
      {
           free(gameArray[i]);
      }

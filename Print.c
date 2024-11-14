@@ -53,6 +53,9 @@ void printQ(void)
      printf("askdlj;sldfa;lsk");
 }
 
+
+
+
 void printFrame(int **gameArray)
 {
      char *toPrint = malloc(10000 * sizeof(char));
@@ -75,14 +78,10 @@ void printFrame(int **gameArray)
                     case 3:
                          strcat(toPrint, groundAir[pr]);
                          break;
-
-                    default:
-                         printf("ERROR");
-                         break;
                     }
                }
-          strcat(toPrint," \n");
           }
+          strcat(toPrint, " \n");
      }
      printf(toPrint);
      free(toPrint);
