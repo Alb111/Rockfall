@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -g
 
 # Source files
-SRCS = main.c gameArray.c
+SRCS = main.c gameArray.c binUtils.c
 
 # Object files (replace .c with .o)
 OBJS = $(SRCS:.c=.o)
@@ -15,7 +15,7 @@ TARGET = game
 
 # Build rule
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -lm
 
 # Compile .c files into .o files
 %.o: %.c game.h

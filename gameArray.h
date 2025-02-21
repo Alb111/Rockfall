@@ -3,5 +3,6 @@
 
 int **initalizeGameArray();
 int freeGameArray(int **gameArray);
+void printArray(int **gameArray);
 
 #endif
