@@ -79,14 +79,18 @@ int freeGameArray(struct gameArray *x)
 
 void printArray(struct gameArray *x)
 {
-    int **gameArray = x->cells;
-    for (int i = 0; i < rows; i++)
+    while (true)
     {
-        for (int k = 0; k < cols; k++)
+        int **gameArray = x->cells;
+        for (int i = 0; i < rows; i++)
         {
-            printf("%d", gameArray[i][k]);
+            for (int k = 0; k < cols; k++)
+            {
+                printf("%d", gameArray[i][k]);
+            }
+            printf("\n");
         }
-        printf("\n");
+        sleep(1);
     }
 }
 
@@ -98,18 +102,53 @@ void moveLeft(struct gameArray *x)
         setGroundAir(&(x->cells[rows - 1][x->playerLocation]));
         setGroundAirPlayer(&(x->cells[rows - 1][x->playerLocation - 1]));
     }
-    x->playerLocation --; 
+    x->playerLocation--;
     pthread_mutex_unlock(&(x->lock));
 }
 
 void moveRight(struct gameArray *x)
 {
     pthread_mutex_lock(&(x->lock));
-    if (x->playerLocation != cols-1)
+    if (x->playerLocation != cols - 1)
     {
         setGroundAir(&(x->cells[rows - 1][x->playerLocation]));
         setGroundAirPlayer(&(x->cells[rows - 1][x->playerLocation + 1]));
     }
-    x->playerLocation ++; 
+    x->playerLocation++;
     pthread_mutex_unlock(&(x->lock));
+}
+
+void rockFall(bool *gameState, struct gameArray *x)
+{
+    int rocks[rows / 3] = {0};
+    while (gameState)
+    {
+        // find places to generate the rows
+        for (int i = 0; i < rows / 3; i++)
+        {
+            rocks[i] = rand() % (rows);
+        }
+
+        // propagate the rows down
+        for (int k = 0; k < cols; k++)
+        {
+            // generate all the rocks and then check for player colision
+            pthread_mutex_lock(&(x->lock));
+            for (int j = 0; j < rows / 3; j++)
+            {
+                if (setNthBitHigh(2, x->cells[rocks[j]][k]) == 15)
+                {
+                    gameState = false;
+                    return;
+                }
+                x->cells[rocks[j]][k] = setNthBitHigh(2, x->cells[rocks[j]][k]);
+            }
+            pthread_mutex_unlock(&(x->lock));
+            sleep(1);
+            for (int j = 0; j < rows / 3; j++)
+            {
+                x->cells[rocks[j]][k] = setNthBitLow(2, x->cells[rocks[j]][k]);
+            }
+        }
+    }
 }

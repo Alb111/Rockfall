@@ -4,11 +4,7 @@ int main()
 {
     struct gameArray *game = initalizeGameArray();
     printArray(game);
-    moveLeft(game);
-    printArray(game);
-    moveRight(game);
-    printArray(game);
     freeGameArray(game);
+    rockFall(true, game );
     return 0;
 }
-

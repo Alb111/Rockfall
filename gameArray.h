@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <pthread.h>
+#include <unistd.h>  
 #include "binUtils.h"
 
 
@@ -20,5 +21,6 @@ int freeGameArray(struct gameArray* x);
 void printArray(struct gameArray* x);
 void moveLeft(struct gameArray *x);
 void moveRight(struct gameArray *x);
+void rockFall(bool *gameState, struct gameArray *x);
 
 #endif
