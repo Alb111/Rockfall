@@ -1,8 +1,8 @@
 ## Todo
 - [ ] Create Game Array Logic
-    - [ ] Decide a bit encoding for the cells
-    - [ ] Create some function to do binary ops
-    - [ ] create thread safe move method
+    - [x] Decide a bit encoding for the cells
+    - [x] Create some function to do binary ops
+    - [x] create thread safe move method
     - [ ] create thread safe rock generation
 - [ ] Look into key stroke listening
 - [ ] printing?

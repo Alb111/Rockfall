@@ -2,8 +2,13 @@
 
 int main()
 {
-    int **gameArray = initalizeGameArray();
-    printArray(gameArray);
-    freeGameArray(gameArray);
+    struct gameArray *game = initalizeGameArray();
+    printArray(game);
+    moveLeft(game);
+    printArray(game);
+    moveRight(game);
+    printArray(game);
+    freeGameArray(game);
     return 0;
 }
+

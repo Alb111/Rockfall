@@ -1,23 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <pthread.h>
-#include "binUtils.h"
+#include "gameArray.h"
 
 #define rows 4
 #define cols 4
 
-struct gameArray
+struct gameArray *initalizeGameArray()
 {
-    int** cells;
-    int playerLocation;
-    pthread_mutex_t lock;
-};
-
-
-struct gameArray* initalizeGameArray()
-{
-    struct gameArray* x =  calloc(1, sizeof(struct gameArray));
+    struct gameArray *x = calloc(1, sizeof(struct gameArray));
 
     // init the mutex
     if (pthread_mutex_init(&(x->lock), NULL) != 0)
@@ -72,24 +60,26 @@ struct gameArray* initalizeGameArray()
 
     x->cells = gameArray;
     x->playerLocation = cols / 2;
-    return x
+    return x;
 }
 
-int freeGameArray(int **gameArray)
+int freeGameArray(struct gameArray *x)
 {
     for (int i = 0; i < rows; i++)
     {
-        free(gameArray[i]);
-        gameArray[i] = NULL;
+        free(x->cells[i]);
+        x->cells[i] = NULL;
     }
-    free(gameArray);
-    gameArray = NULL;
-    pthread_mutex_destroy(&lock);
+    free(x->cells);
+
+    x->cells = NULL;
+    pthread_mutex_destroy(&(x->lock));
     return 1;
 }
 
-void printArray(int **gameArray)
+void printArray(struct gameArray *x)
 {
+    int **gameArray = x->cells;
     for (int i = 0; i < rows; i++)
     {
         for (int k = 0; k < cols; k++)
@@ -100,13 +90,26 @@ void printArray(int **gameArray)
     }
 }
 
-void move(bool Left)
+void moveLeft(struct gameArray *x)
 {
-    // if left true player moves Left
-    // and right if left is false
-    pthread_mutex_lock(&lock);
-    if (Left)
+    pthread_mutex_lock(&(x->lock));
+    if (x->playerLocation != 0)
     {
+        setGroundAir(&(x->cells[rows - 1][x->playerLocation]));
+        setGroundAirPlayer(&(x->cells[rows - 1][x->playerLocation - 1]));
     }
-    pthread_mutex_unlock(&lock);
+    x->playerLocation --; 
+    pthread_mutex_unlock(&(x->lock));
+}
+
+void moveRight(struct gameArray *x)
+{
+    pthread_mutex_lock(&(x->lock));
+    if (x->playerLocation != cols-1)
+    {
+        setGroundAir(&(x->cells[rows - 1][x->playerLocation]));
+        setGroundAirPlayer(&(x->cells[rows - 1][x->playerLocation + 1]));
+    }
+    x->playerLocation ++; 
+    pthread_mutex_unlock(&(x->lock));
 }
