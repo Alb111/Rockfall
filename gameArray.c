@@ -1,21 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <pthread.h>
 
 #define rows 4
 #define cols 4
 
-enum Day
-{
-    air,                // 1
-    rockAir,            // 2
-    airGround,          // 3
-    rockAirGround,      // 4
-    airPlayerGround,    // 5
-    rockAirPlayerGround // 6
-};
+pthread_mutex_t lock;
+int playerlocation;
 
 int **initalizeGameArray()
 {
+    // init the mutex
+    if (pthread_mutex_init(&lock, NULL) != 0)
+    {
+        fprintf(stderr, "mutex initalization failed");
+        return NULL;
+    }
+
     // Allocating the memory
     // make space for rows
     int **gameArray = (int **)calloc(rows, sizeof(int *));
@@ -49,7 +51,8 @@ int **initalizeGameArray()
             }
         }
     }
-    gameArray[rows-1][(cols/2)] = 5; 
+    gameArray[rows - 1][(cols / 2)] = 5;
+    playerlocation = cols / 2;
 
     return gameArray;
 }
@@ -63,8 +66,19 @@ int freeGameArray(int **gameArray)
     }
     free(gameArray);
     gameArray = NULL;
+    pthread_mutex_destroy(&lock);
 
     return 1;
 }
 
+void move(bool Left)
+{
+    // if left true player moves Left
+    // and right if left is false
+    pthread_mutex_lock(&lock);
+    if (Left)
+    {
 
+    }
+    pthread_mutex_unlock(&lock);
+}
