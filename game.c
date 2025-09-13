@@ -69,3 +69,16 @@ GAME *createGame(int n)
     return rockfall;
 }
 
+void destoryGame(GAME *rockfall)
+{
+        if(rockfall == NULL)
+        {
+            fprintf(stderr, "ur a dumbass give me an actual pointer");
+            return;
+        }
+        for(int i = 0; i < rockfall->n; i++) free(rockfall->game_array[i]);
+        free(rockfall->game_array);
+        pthread_mutex_destroy(&rockfall->mutex);       
+        free(rockfall);
+        return NULL;
+}
