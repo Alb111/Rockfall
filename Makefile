@@ -1,27 +1,19 @@
-# Compiler
+# Compiler and flags
 CC = gcc
+CFLAGS = -Wall -g
 
-# Compiler flags
-CFLAGS = -Wall -Wextra -g -fsanitize=thread
+# Source files and objects
+SRC = main.c
+OBJ = $(SRC:.c=.o)
 
-# Source files
-SRCS = main.c gameArray.c binUtils.c
+# Final executable
+program: $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^
 
-# Object files (replace .c with .o)
-OBJS = $(SRCS:.c=.o)
+# Pattern rule: how to build .o from .c
+%.o: %.c
+	$(CC) $(CFLAGS) -c $<
 
-# Target executable name
-TARGET = game
-
-# Build rule
-$(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) -lm
-
-# Compile .c files into .o files
-%.o: %.c game.h
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Clean rule (optional, removes compiled files)
+# Cleanup
 clean:
-	rm -f $(TARGET) $(OBJS)
-
+	rm -f $(OBJ) program
