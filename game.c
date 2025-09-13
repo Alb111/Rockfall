@@ -1,22 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <stdatomic.h>
-
-typedef struct {
-    CELL **game_array;
-    atomic_int player_hit;
-    int n;
-    pthread_mutex_t mutex;
-} GAME;
-
-
-typedef enum {
-    CELL_EMPTY = 0b00,
-    CELL_PLAYER = 0b01,
-    CELL_ROCK = 0b10,
-    CELL_PLAYER_HIT = 0b11
-} CELL;
+#include "game.h"
 
 GAME *createGame(int n)
 {
@@ -80,5 +62,5 @@ void destoryGame(GAME *rockfall)
         free(rockfall->game_array);
         pthread_mutex_destroy(&rockfall->mutex);       
         free(rockfall);
-        return NULL;
+        return;
 }
