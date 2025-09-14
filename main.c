@@ -4,7 +4,8 @@
 
 int main()
 {
-    printf("loading\n"); 
+
+    printf("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n"); 
     printf("loading\n"); 
     fflush(stdout);
     printf("\033[2A");
