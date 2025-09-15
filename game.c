@@ -4,44 +4,48 @@
 bool createGame(int n, GAME *rockfall)
 {
     rockfall = malloc(sizeof(GAME));
+    
+    // store size and wincon for other threads
+    atomic_store(&rockfall->player_hit, 0);
+    rockfall->n = n;
 
     if(rockfall == NULL)
     {
         fprintf(stderr, "Error: game couldn't malloc\n");
         return false;
     } 
-    
     if(!createGameArray(rockfall))
     {
         free(rockfall);
         return false;
     } 
-
     if(!createMutex(rockfall))
     {
         freeGameArray(rockfall);
         return false;
     } 
-
-    // store size and wincon for other threads
-    atomic_store(&rockfall->player_hit, 0);
-    rockfall->n = n;
+    if(!createPrintBuffer(rockfall))
+    {
+        freeGameArray(rockfall);
+        freeMutex(rockfall);
+        return false;
+    } 
 
     return true;
-    
 }
 
 void destoryGame(GAME *rockfall)
 {
-        if(rockfall == NULL)
-        {
-            fprintf(stderr, "ur a dumbass give me an actual pointer");
-            return;
-        }
-        freeGameArray(rockfall);
-        freeMutex(rockfall);
-        free(rockfall);
+    if(rockfall == NULL)
+    {
+        fprintf(stderr, "ur a dumbass give me an actual pointer");
         return;
+    }
+    freeGameArray(rockfall);
+    freeMutex(rockfall);
+    freePrintBuffer(rockfall);
+    free(rockfall);
+    return;
 }
 
 // creates a nxn array to store gamestate
@@ -115,5 +119,58 @@ void freeMutex(GAME *to_destroy)
     return;
 }
 
+// setup print buffer that contains a printable verrsion of gamearr
+bool **createPrintBuffer(GAME *rockfall)
+{
+    // make an array of empty strs based on game size
+    int to_print_height = SPRITE_HEIGHT * rockfall->n;
+    int to_print_width = SPRITE_WIDTH * rockfall->n + 1; // extra for null termin
+    char **to_print = calloc(to_print_height, sizeof(char*));
 
-   
+    if (to_print == NULL)
+    {
+        fprintf(stderr, "to_print rows didnt calloc");
+        return false;
+    }
+
+    for (int i = 0; i < to_print_height; i++)
+    {
+        to_print[i] = calloc(to_print_width, sizeof(char));
+        if(to_print[i] == NULL)
+        {
+            fprintf(stderr, "to_print col %d didnt calloc", i);
+            for (int k = 0; k < i; k++)
+            {
+                free(to_print[k]);
+            }
+            free(to_print);
+            return false;
+        }
+    }
+    rockfall->print_buffer = to_print;
+    return true;
+}
+
+// free for print buffer
+void freePrintBuffer(GAME *rockfall)
+{
+    char **to_print = rockfall->print_buffer;
+    if(to_print == NULL)
+    {
+        fprintf(stderr, "to_print is null");
+        return;
+        
+    }
+
+    int to_print_height = SPRITE_HEIGHT * rockfall->n;
+    for (int i = 0; i < to_print_height; i++)
+    {
+        if(to_print[i] == NULL)
+        {
+            fprintf(stderr, "to_print col %d is null", i);
+        }
+        free(to_print[i]);
+    }
+    free(to_print);
+}
+

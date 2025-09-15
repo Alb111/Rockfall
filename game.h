@@ -7,6 +7,11 @@
 #include <stdatomic.h>
 #include <stdbool.h>
 
+#define SPRITE_WIDTH 38
+#define SPRITE_HEIGHT 11
+
+
+
 typedef enum {
     CELL_EMPTY = 0b00,
     CELL_PLAYER = 0b01,
@@ -20,6 +25,7 @@ typedef struct {
     atomic_int player_hit;
     int n;
     pthread_mutex_t mutex;
+    char **print_buffer;
 } GAME;
 
 
