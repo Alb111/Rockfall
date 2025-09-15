@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <stdatomic.h>
+#include <stdbool.h>
 
 typedef enum {
     CELL_EMPTY = 0b00,
