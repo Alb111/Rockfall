@@ -13,7 +13,7 @@ GAME *createGame(int n)
     rockfall->game_array = calloc(n, sizeof(CELL*));
     if(rockfall->game_array == NULL)
     {
-        fprintf(stderr, "Error: gameArray cols couldn't malloc\n");
+        fprintf(stderr, "Error: gameArray rows couldn't calloc\n");
         free(rockfall);
         return NULL;
     }
@@ -24,7 +24,7 @@ GAME *createGame(int n)
        rockfall->game_array[i] = calloc(n, sizeof(CELL));
         if(rockfall->game_array[i] == NULL)
         {
-            fprintf(stderr, "Error: gameArray row %d couldn't malloc\n", i);
+            fprintf(stderr, "Error: gameArray col %d couldn't malloc\n", i);
             for(int k = 0; k < i; k++) free(rockfall->game_array[k]); // prev rows
             free(rockfall->game_array);
             free(rockfall);
