@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -g
 
 # Source files and objects
-SRC = main.c game.c
+SRC = main.c game.c art.c
 OBJ = $(SRC:.c=.o)
 
 # Final executable
