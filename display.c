@@ -1,7 +1,4 @@
-#include "art.h"
-#include "game.h"
-#include <string.h>
-
+#include "display.h"
 // translates the gameState stored in the 2D cell arr to
 // ascii art that gets printed 
 void printGame(GAME *rockfall)
@@ -29,23 +26,26 @@ void printGame(GAME *rockfall)
             switch (rockfall->game_array[row][col])
             {
             case CELL_EMPTY:
-                strc
-                to_add = to 
+                strcpy(to_add, air[i%SPRITE_HEIGHT]);
                 break;
-            case CELL_EMPTY:
-                /* code */
+            case CELL_PLAYER:
+                strcpy(to_add, player[i%SPRITE_HEIGHT]);
                 break;
-            case CELL_EMPTY:
-                /* code */
+            case CELL_PLAYER_HIT:
+                strcpy(to_add, player[i%SPRITE_HEIGHT]);
                 break;
-            case CELL_EMPTY:
-                /* code */
+            case CELL_ROCK:
+                strcpy(to_add, rock[i%SPRITE_HEIGHT]);
                 break;
             default:
                 break;
             }
-
+            strcat(rockfall->print_buffer[i], to_add);
         }
-        
+    }
+
+    for (int i = 0; i < to_print_height; i++)
+    {
+        printf("%s\n", rockfall->print_buffer[i]);
     }
 }

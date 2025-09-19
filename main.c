@@ -3,6 +3,7 @@
 #include <string.h>
 #include "game.h"
 #include "art.h"
+#include "display.h"
 
 
 int main()
@@ -18,6 +19,7 @@ int main()
 
     GAME *x;
     createGame(4, &x);
+    printGame(x);
     destoryGame(x);
 
     for(int i = 0; i < SPRITE_HEIGHT; i++) {

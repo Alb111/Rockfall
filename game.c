@@ -73,7 +73,7 @@ bool createGameArray(GAME *rockfall)
         }
     }
     // put player in middle
-    rockfall->game_array[0][rockfall->n/2] = CELL_PLAYER;
+    rockfall->game_array[rockfall->n - 1][rockfall->n/2] = CELL_PLAYER;
      
     return true;
 }
