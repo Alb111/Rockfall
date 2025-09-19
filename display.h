@@ -2,6 +2,8 @@
 #define DISPLAY_H
 
 #include <string.h>
+#include <stdio.h>
+
 #include "art.h"
 #include "game.h"
 

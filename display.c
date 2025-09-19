@@ -1,4 +1,5 @@
 #include "display.h"
+
 // translates the gameState stored in the 2D cell arr to
 // ascii art that gets printed 
 void printGame(GAME *rockfall)
@@ -44,8 +45,11 @@ void printGame(GAME *rockfall)
         }
     }
 
+    fflush(stdout);
+    printf("\033[%dA", SPRITE_HEIGHT);
     for (int i = 0; i < to_print_height; i++)
     {
         printf("%s\n", rockfall->print_buffer[i]);
     }
 }
+
