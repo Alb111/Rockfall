@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 #include "game.h"
+#include "art.h"
+
 
 int main()
 {
@@ -16,6 +19,12 @@ int main()
     GAME *x;
     createGame(4, &x);
     destoryGame(x);
+
+    for(int i = 0; i < SPRITE_HEIGHT; i++) {
+        if( strlen(rock[i]) != SPRITE_WIDTH){
+        printf("Length of string %d: %zu\n", i+1, strlen(player[i]));
+    }
+    }
 
     return 0;
 }

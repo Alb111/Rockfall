@@ -1,8 +1,8 @@
 #ifndef ART
 #define ART
 
-const char *player[];
-const char *rock[];
-const char *air[]; 
+extern const char *player[];
+extern const char *rock[];
+extern const char *air[]; 
 
 #endif
