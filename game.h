@@ -28,8 +28,15 @@ typedef struct {
     char **print_buffer;
 } GAME;
 
+bool createGame(int n, GAME **rockfall);
+bool destoryGame(GAME *rockfall);
+bool createGameArray(GAME *rockfall);
+bool freeGameArray(GAME *to_destroy);
+bool createMutex(GAME *rockfall);
+bool freeMutex(GAME *to_destroy);
+bool createPrintBuffer(GAME *rockfall);
+bool freePrintBuffer(GAME *rockfall);
 
-void destoryGame(GAME *rockfall);
-GAME *createGame(int n);
+
 
 #endif

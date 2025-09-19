@@ -13,7 +13,8 @@ int main()
     printf("\rdone loading\n"); 
     fflush(stdout);
 
-    GAME *x = createGame(4);
+    GAME *x;
+    createGame(4, &x);
     destoryGame(x);
 
     return 0;

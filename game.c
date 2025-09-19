@@ -1,51 +1,52 @@
 #include "game.h"
 
 // sets up memory and inits for a game with (nxn) pixel
-bool createGame(int n, GAME *rockfall)
+bool createGame(int n, GAME **rockfall)
 {
-    rockfall = malloc(sizeof(GAME));
+    *rockfall = malloc(sizeof(GAME));
     
     // store size and wincon for other threads
-    atomic_store(&rockfall->player_hit, 0);
-    rockfall->n = n;
+    atomic_store(&(*rockfall)->player_hit, 0);
+    (*rockfall)->n = n;
 
-    if(rockfall == NULL)
+    if(*rockfall == NULL)
     {
         fprintf(stderr, "Error: game couldn't malloc\n");
         return false;
     } 
-    if(!createGameArray(rockfall))
+    if(!createGameArray(*rockfall))
     {
-        free(rockfall);
+        free(*rockfall);
         return false;
     } 
-    if(!createMutex(rockfall))
+    if(!createMutex(*rockfall))
     {
-        freeGameArray(rockfall);
+        freeGameArray(*rockfall);
         return false;
     } 
-    if(!createPrintBuffer(rockfall))
+    if(!createPrintBuffer(*rockfall))
     {
-        freeGameArray(rockfall);
-        freeMutex(rockfall);
+        freeGameArray(*rockfall);
+        freeMutex(*rockfall);
         return false;
     } 
 
     return true;
 }
 
-void destoryGame(GAME *rockfall)
+bool destoryGame(GAME *rockfall)
 {
     if(rockfall == NULL)
     {
         fprintf(stderr, "ur a dumbass give me an actual pointer");
-        return;
+        return false;
     }
-    freeGameArray(rockfall);
-    freeMutex(rockfall);
-    freePrintBuffer(rockfall);
+    bool success = true;
+    success = success & freeGameArray(rockfall);
+    success = success & freeMutex(rockfall);
+    success = success & freePrintBuffer(rockfall);
     free(rockfall);
-    return;
+    return success;
 }
 
 // creates a nxn array to store gamestate
@@ -78,24 +79,24 @@ bool createGameArray(GAME *rockfall)
 }
 
 // free memory for 2D cell arr
-void freeGameArray(GAME *to_destroy)
+bool freeGameArray(GAME *to_destroy)
 {
     if(to_destroy->game_array == NULL)
     {
         fprintf(stderr, "gameArr to destroy is null: skill issue =(\n");
-        return;
+        return false;
     }
     for(int i = 0; i < to_destroy->n; i++)
     {
         if(to_destroy->game_array[i] == NULL)
         {
             fprintf(stderr, "gameArr[%d] to destroy is null: skill issue =(\n", i);
-            return;
+            return false;
         }
         free(to_destroy->game_array[i]);
     } 
     free(to_destroy->game_array);
-    return;
+    return true;
 }
 
     
@@ -110,17 +111,18 @@ bool createMutex(GAME *rockfall)
 }
 
 // destroy mutex
-void freeMutex(GAME *to_destroy)
+bool freeMutex(GAME *to_destroy)
 {
     if(pthread_mutex_destroy(&to_destroy->mutex) != 0)       
     {
         fprintf(stderr, "mutex is to strong it didn't destroy\n");
+        return false;
     }
-    return;
+    return true;
 }
 
 // setup print buffer that contains a printable verrsion of gamearr
-bool **createPrintBuffer(GAME *rockfall)
+bool createPrintBuffer(GAME *rockfall)
 {
     // make an array of empty strs based on game size
     int to_print_height = SPRITE_HEIGHT * rockfall->n;
@@ -152,25 +154,30 @@ bool **createPrintBuffer(GAME *rockfall)
 }
 
 // free for print buffer
-void freePrintBuffer(GAME *rockfall)
+bool freePrintBuffer(GAME *rockfall)
 {
     char **to_print = rockfall->print_buffer;
     if(to_print == NULL)
     {
         fprintf(stderr, "to_print is null");
-        return;
-        
+        return false;
     }
 
     int to_print_height = SPRITE_HEIGHT * rockfall->n;
+    bool noerr = true;
     for (int i = 0; i < to_print_height; i++)
     {
         if(to_print[i] == NULL)
         {
             fprintf(stderr, "to_print col %d is null", i);
+            noerr = false;
         }
-        free(to_print[i]);
+        else
+        {
+            free(to_print[i]);
+        }
     }
     free(to_print);
+    return noerr;
 }
 
