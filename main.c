@@ -8,7 +8,6 @@
 
 int main()
 {
-
     // printf("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n"); 
     // printf("loading\n"); 
     // fflush(stdout);
@@ -17,10 +16,13 @@ int main()
     // printf("\rdone loading\n"); 
     // fflush(stdout);
 
-    GAME *x;
-    createGame(4, &x);
+    // GAME *x;
+    // createGame(4, &x);
+    // printGame(x);
+    // destoryGame(x);
+
+
+
     listener();
-    printGame(x);
-    destoryGame(x);
     return 0;
 }
