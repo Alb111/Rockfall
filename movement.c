@@ -1,12 +1,10 @@
 #include "movement.h"
 
 #define ESC 27
-#define UP 65
-#define DOWN 66
 #define RIGHT 67
 #define LEFT 68
 
-void listener() {
+void listener(GAME *rockfall) {
     struct termios oldt, newt;
     char c;
 
@@ -18,7 +16,7 @@ void listener() {
     // infinite loop that listens for keys
     while (1) {
         // arrow keys are given by the following esc seq:
-        // esc -> [ -> (a or b or c or d)
+        // esc -> [ -> (a or b)
         c = getchar();
         if(c == ESC) 
         {
@@ -26,23 +24,8 @@ void listener() {
             if(c == '[')
             {
                 c = getchar();
-                switch (c)
-                {
-                case LEFT:
-                    printf("left\n");
-                    break;
-                case RIGHT:
-                    printf("right\n");
-                    break;
-                case UP:
-                    printf("up\n");
-                    break;
-                case DOWN:
-                    printf("down\n");
-                    break;
-                default:
-                    break;
-                }
+                movePlayer(rockfall, c);
+                printGame(rockfall);
             }
         } 
         if (c == 'q') break;
@@ -50,4 +33,28 @@ void listener() {
 
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt); // restore terminal
     return;
+}
+
+bool movePlayer(GAME *rockfall, int direction)
+{
+    if(rockfall == NULL)
+    {
+        printf("move player: rockfall null");
+        return false;
+    }
+
+    int to_add = (direction == RIGHT) ? 1 : -1;
+
+    // find player
+    for (int i = 0; i < rockfall->n; i++)
+    {
+        if(rockfall->game_array[rockfall->n - 1][i] == CELL_PLAYER)
+        {
+            // move player
+            rockfall->game_array[rockfall->n - 1][i] = CELL_EMPTY;
+            rockfall->game_array[rockfall->n - 1][abs(i+to_add)%rockfall->n] = CELL_PLAYER;
+            break;
+        }
+    }
+    return true;
 }
