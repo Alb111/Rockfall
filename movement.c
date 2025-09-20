@@ -43,7 +43,7 @@ bool movePlayer(GAME *rockfall, int direction)
         return false;
     }
 
-    int to_add = (direction == RIGHT) ? 1 : -1;
+    int to_add = (direction == RIGHT) ? 1 : rockfall->n - 1;
 
     // find player
     for (int i = 0; i < rockfall->n; i++)
@@ -52,7 +52,7 @@ bool movePlayer(GAME *rockfall, int direction)
         {
             // move player
             rockfall->game_array[rockfall->n - 1][i] = CELL_EMPTY;
-            rockfall->game_array[rockfall->n - 1][abs(i+to_add)%rockfall->n] = CELL_PLAYER;
+            rockfall->game_array[rockfall->n - 1][(i+to_add)%rockfall->n] = CELL_PLAYER;
             break;
         }
     }

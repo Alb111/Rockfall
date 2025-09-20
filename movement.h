@@ -3,7 +3,6 @@
 
 #include <unistd.h>
 #include <termios.h>
-#include <stdlib.h>
 
 #include "movement.h"
 #include "art.h"

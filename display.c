@@ -46,7 +46,7 @@ void printGame(GAME *rockfall)
     }
 
     fflush(stdout);
-    printf("\033[%dA", SPRITE_HEIGHT);
+    printf("\033[%dA", to_print_height);
     for (int i = 0; i < to_print_height; i++)
     {
         printf("%s\n", rockfall->print_buffer[i]);
