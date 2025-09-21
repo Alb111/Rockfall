@@ -24,7 +24,10 @@ void listener(GAME *rockfall) {
             if(c == '[')
             {
                 c = getchar();
-                movePlayer(rockfall, c);
+                if(!movePlayer(rockfall, c))
+                {
+                    return;
+                }
                 printGame(rockfall);
             }
         } 
@@ -39,7 +42,7 @@ bool movePlayer(GAME *rockfall, int direction)
 {
     if(rockfall == NULL)
     {
-        printf("move player: rockfall null");
+        fprintf(stderr, "move player: rockfall null\n");
         return false;
     }
 

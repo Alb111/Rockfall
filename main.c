@@ -16,6 +16,12 @@ int main()
     // printf("\rdone loading\n"); 
     // fflush(stdout);
 
+    for (int i = 0; i < 44; i++)
+    {
+        printf("%s\n", title[i]);
+    }
+    
+    sleep(1);
     GAME *x;
     createGame(4, &x);
     printGame(x);
