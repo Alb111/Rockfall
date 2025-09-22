@@ -1,5 +1,9 @@
 #include "display.h"
 
+#define TITLE_HEIGHT 44
+#define BLINK_LOC 10
+#define BLINK_TEXT_HEIGHT 34
+
 // translates the gameState stored in the 2D cell arr to
 // ascii art that gets printed 
 void printGame(GAME *rockfall)
@@ -53,3 +57,51 @@ void printGame(GAME *rockfall)
     }
 }
 
+
+void printTitle()
+{
+    while (true)
+    {
+    fflush(stdout);
+    for (int i = 0; i < TITLE_HEIGHT; i++)
+    {
+        printf("%s\n", title[i]);
+    }
+
+        fflush(stdout);
+        printf("\033[%dA", BLINK_LOC);
+        for (int i = 0; i < 4; i++)
+        {
+            printf("%s\n", blinking_start[i]);
+        }
+        for (int i = TITLE_HEIGHT - BLINK_LOC + 4; i < TITLE_HEIGHT; i++)
+        {
+            printf("%s\n", title[i]);
+        }
+ 
+        usleep(500000); // 0.5 seconds delay
+
+        fflush(stdout);
+        printf("\033[%dA", BLINK_LOC);
+        for (int i = TITLE_HEIGHT - BLINK_LOC; i < TITLE_HEIGHT; i++)
+        {
+            printf("%s\n", title[i]);
+        }
+ 
+    }
+    
+   
+    return;
+}
+
+
+//     for (int i = 0; i < 5; i++) {
+//         printf("Manual blink: ON\r");
+//         fflush(stdout); // Ensure the output is written immediately
+
+//         printf("Manual blink:   \r"); // Overwrite with spaces to "turn off"
+//         fflush(stdout);
+//         usleep(500000);
+//     }
+ 
+//     jjkkk
