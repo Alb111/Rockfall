@@ -1,7 +1,7 @@
 #include "display.h"
 
 #define TITLE_HEIGHT 44
-#define BLINK_LOC 10
+#define BLINK_LOC 16
 #define BLINK_TEXT_HEIGHT 34
 
 // translates the gameState stored in the 2D cell arr to
@@ -60,14 +60,15 @@ void printGame(GAME *rockfall)
 
 void printTitle()
 {
-    while (true)
-    {
     fflush(stdout);
     for (int i = 0; i < TITLE_HEIGHT; i++)
     {
         printf("%s\n", title[i]);
     }
 
+    while (true)
+    {
+    
         fflush(stdout);
         printf("\033[%dA", BLINK_LOC);
         for (int i = 0; i < 4; i++)
@@ -87,9 +88,9 @@ void printTitle()
         {
             printf("%s\n", title[i]);
         }
- 
-    }
     
+        usleep(500000); // 0.5 seconds delay
+    }
    
     return;
 }
