@@ -19,10 +19,16 @@ typedef enum {
     CELL_PLAYER_HIT = 0b11
 } CELL;
 
+typedef enum {
+    STARTING = 1,
+    GAMING = 2,
+    ENDING = 3
+} GAMESTATE;
 
 typedef struct {
     CELL **game_array;
-    atomic_int player_hit;
+    bool player_hit;
+    GAMESTATE gameState;
     int n;
     pthread_mutex_t mutex;
     char **print_buffer;
@@ -36,7 +42,5 @@ bool createMutex(GAME *rockfall);
 bool freeMutex(GAME *to_destroy);
 bool createPrintBuffer(GAME *rockfall);
 bool freePrintBuffer(GAME *rockfall);
-
-
 
 #endif

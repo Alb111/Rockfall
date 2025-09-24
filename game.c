@@ -6,8 +6,9 @@ bool createGame(int n, GAME **rockfall)
     *rockfall = malloc(sizeof(GAME));
     
     // store size and wincon for other threads
-    atomic_store(&(*rockfall)->player_hit, 0);
+    (*rockfall)->player_hit = false;
     (*rockfall)->n = n;
+    (*rockfall)->gameState = GAMING;
 
     if(*rockfall == NULL)
     {
@@ -30,7 +31,6 @@ bool createGame(int n, GAME **rockfall)
         freeMutex(*rockfall);
         return false;
     } 
-
     return true;
 }
 

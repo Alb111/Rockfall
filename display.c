@@ -46,7 +46,7 @@ void printGame(GAME *rockfall)
                 break;
             }
             strcat(rockfall->print_buffer[i], to_add);
-        }
+       }
     }
 
     fflush(stdout);
@@ -58,7 +58,7 @@ void printGame(GAME *rockfall)
 }
 
 
-void printTitle()
+void printTitle(GAME* rockfall)
 {
     fflush(stdout);
     for (int i = 0; i < TITLE_HEIGHT; i++)
@@ -66,43 +66,28 @@ void printTitle()
         printf("%s\n", title[i]);
     }
 
-    while (true)
+    pthread_mutex_lock(&(rockfall->mutex));
+    while (rockfall->gameState == STARTING)
+    pthread_mutex_unlock(&(rockfall->mutex));
     {
-    
-        fflush(stdout);
-        printf("\033[%dA", BLINK_LOC);
-        for (int i = 0; i < 4; i++)
-        {
-            printf("%s\n", blinking_start[i]);
-        }
-        for (int i = TITLE_HEIGHT - BLINK_LOC + 4; i < TITLE_HEIGHT; i++)
-        {
-            printf("%s\n", title[i]);
-        }
- 
-        usleep(500000); // 0.5 seconds delay
-
-        fflush(stdout);
-        printf("\033[%dA", BLINK_LOC);
-        for (int i = TITLE_HEIGHT - BLINK_LOC; i < TITLE_HEIGHT; i++)
-        {
-            printf("%s\n", title[i]);
-        }
-    
-        usleep(500000); // 0.5 seconds delay
+        // fflush(stdout);
+    //     printf("\033[%dA", BLINK_LOC);
+    //     for (int i = 0; i < 4; i++)
+    //     {
+    //         printf("%s\n", blinking_start[i]);
+    //     }
+    //     for (int i = TITLE_HEIGHT - BLINK_LOC + 4; i < TITLE_HEIGHT; i++)
+    //     {
+    //         printf("%s\n", title[i]);
+    //     }
+    //     usleep(500000); // 0.5 seconds delay
+    //     fflush(stdout);
+    //     printf("\033[%dA", BLINK_LOC);
+    //     for (int i = TITLE_HEIGHT - BLINK_LOC; i < TITLE_HEIGHT; i++)
+    //     {
+    //         printf("%s\n", title[i]);
+    //     }
+    //     usleep(500000); // 0.5 seconds delay
     }
-   
     return;
 }
-
-
-//     for (int i = 0; i < 5; i++) {
-//         printf("Manual blink: ON\r");
-//         fflush(stdout); // Ensure the output is written immediately
-
-//         printf("Manual blink:   \r"); // Overwrite with spaces to "turn off"
-//         fflush(stdout);
-//         usleep(500000);
-//     }
- 
-//     jjkkk

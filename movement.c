@@ -18,7 +18,8 @@ void listener(GAME *rockfall) {
         // arrow keys are given by the following esc seq:
         // esc -> [ -> (a or b)
         c = getchar();
-        if(c == ESC) 
+        pthread_mutex_lock(&(rockfall->mutex));
+        if(c == ESC && rockfall->gameState == GAMING) 
         {
             c = getchar();
             if(c == '[')
@@ -31,7 +32,16 @@ void listener(GAME *rockfall) {
                 printGame(rockfall);
             }
         } 
-        if (c == 'q') break;
+        if (c == 'q' && rockfall->gameState == GAMING)
+        {
+            pthread_mutex_unlock(&(rockfall->mutex));
+            break;
+        }
+        if(c == 'x' && rockfall->gameState == STARTING)
+        {
+            rockfall->gameState = GAMING;
+        }
+        pthread_mutex_unlock(&(rockfall->mutex));
     }
 
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt); // restore terminal

@@ -6,24 +6,31 @@
 #include "display.h"
 #include "movement.h"
 
-int main()
-{
-    // printf("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n"); 
-    // printf("loading\n"); 
-    // fflush(stdout);
-    // printf("\033[2A");
-    // sleep(1);
-    // printf("\rdone loading\n"); 
-    // fflush(stdout);
+GAME *x;
 
-    printTitle();
+void *printGameThread(void *arg) {
+    printTitle((GAME *)arg);
+    printGame((GAME *)arg);
+    return NULL;
+}
 
- 
-    // GAME *x;
-    // createGame(4, &x);
-    // printGame(x);
-    // // listener(x);
-    // destoryGame(x);
+void *listenerThread(void *arg) {
+    listener((GAME *)arg);
+    return NULL;
+}
 
+int main() {
+    createGame(4, &x);
+    pthread_t t1, t2;
+
+    // Launch threads
+    pthread_create(&t1, NULL, printGameThread, x);
+    pthread_create(&t2, NULL, listenerThread, x);
+
+    // Wait for threads to finish
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+
+    destoryGame(x);
     return 0;
 }
