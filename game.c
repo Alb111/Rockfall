@@ -8,7 +8,7 @@ bool createGame(int n, GAME **rockfall)
     // store size and wincon for other threads
     (*rockfall)->player_hit = false;
     (*rockfall)->n = n;
-    (*rockfall)->gameState = GAMING;
+    (*rockfall)->gameState = STARTING;
 
     if(*rockfall == NULL)
     {

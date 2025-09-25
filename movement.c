@@ -15,33 +15,40 @@ void listener(GAME *rockfall) {
 
     // infinite loop that listens for keys
     while (1) {
+        printf("%d\n", rockfall->gameState);
         // arrow keys are given by the following esc seq:
         // esc -> [ -> (a or b)
         c = getchar();
         pthread_mutex_lock(&(rockfall->mutex));
-        if(c == ESC && rockfall->gameState == GAMING) 
-        {
-            c = getchar();
-            if(c == '[')
+        if(rockfall->gameState == STARTING) {
+            if(c == 'x')
+            {
+                rockfall->gameState = GAMING;
+            }
+        }
+
+        else if(rockfall->gameState == GAMING) {
+            if(c == ESC) 
             {
                 c = getchar();
-                if(!movePlayer(rockfall, c))
+                if(c == '[')
                 {
-                    return;
+                    c = getchar();
+                    if(!movePlayer(rockfall, c))
+                    {
+                        return;
+                    }
+                    // printGame(rockfall);
+                    pthread_mutex_unlock(&(rockfall->mutex));
                 }
-                printGame(rockfall);
             }
-        } 
-        if (c == 'q' && rockfall->gameState == GAMING)
-        {
-            pthread_mutex_unlock(&(rockfall->mutex));
-            break;
+            else if (c == 'q')
+            {
+                pthread_mutex_unlock(&(rockfall->mutex));
+                break;
+            }
         }
-        if(c == 'x' && rockfall->gameState == STARTING)
-        {
-            rockfall->gameState = GAMING;
-        }
-        pthread_mutex_unlock(&(rockfall->mutex));
+       pthread_mutex_unlock(&(rockfall->mutex));
     }
 
     tcsetattr(STDIN_FILENO, TCSANOW, &oldt); // restore terminal
