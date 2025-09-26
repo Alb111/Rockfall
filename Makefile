@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -g -fsanitize=thread -g
 
 # Source files and objects
-SRC = main.c game.c art.c display.c movement.c
+SRC = main.c game.c art.c display.c game_manager.c key_listener.c
 OBJ = $(SRC:.c=.o)
 
 # Final executable
