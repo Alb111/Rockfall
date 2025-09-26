@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -fsanitize=thread -g
 
 # Source files and objects
 SRC = main.c game.c art.c display.c movement.c

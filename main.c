@@ -9,7 +9,7 @@
 GAME *x;
 
 void *printGameThread(void *arg) {
-    printTitle((GAME *)arg);
+    // printTitle((GAME *)arg);
     return NULL;
 }
 

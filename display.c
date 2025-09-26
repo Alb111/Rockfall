@@ -66,7 +66,6 @@ void printTitle(GAME* rockfall)
         printf("%s\n", title[i]);
     }
 
-
     while (1)
     {
         pthread_mutex_lock(&(rockfall->mutex));
