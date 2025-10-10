@@ -3,6 +3,8 @@
 #include <string.h>
 #include "../lib/chan/chan.h"
 
+
+
 chan_t* chan;
 
 void* ping()
@@ -24,7 +26,7 @@ int main()
     // Receive blocks until sender is ready.
     void* msg;
     int count = 0;
-    while ( count < 2 )
+    while (count < 2 )
     {
         chan_recv(chan, &msg);
         char* x = (char*)msg;   
@@ -33,6 +35,7 @@ int main()
     }
     pthread_join(th, NULL);
     chan_close(chan);
+
     // Clean up channel.
     chan_dispose(chan);
 }

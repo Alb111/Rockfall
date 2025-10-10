@@ -20,7 +20,7 @@ bool createGame(int n, GAME **rockfall)
         free(*rockfall);
         return false;
     } 
-    if(!createMutex(*rockfall))
+    if(!createKeyStrokeBuff(*rockfall))
     {
         freeGameArray(*rockfall);
         return false;
@@ -28,7 +28,7 @@ bool createGame(int n, GAME **rockfall)
     if(!createPrintBuffer(*rockfall))
     {
         freeGameArray(*rockfall);
-        freeMutex(*rockfall);
+        freeKeyStrokeBuff(*rockfall);
         return false;
     } 
     return true;
@@ -101,7 +101,7 @@ bool freeGameArray(GAME *to_destroy)
 
     
 // setup mutex 
-bool createMutex(GAME *rockfall)
+bool createKeyStrokeBuff(GAME *rockfall)
 {
     if (pthread_mutex_init(&rockfall->mutex, NULL) != 0) {
         printf("Mutex init failed\n");

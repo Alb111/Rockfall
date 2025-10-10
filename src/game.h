@@ -7,10 +7,10 @@
 #include <stdatomic.h>
 #include <stdbool.h>
 
+#include "../lib/chan/chan.h"
+
 #define SPRITE_WIDTH 38
 #define SPRITE_HEIGHT 11
-
-
 
 typedef enum {
     CELL_EMPTY = 0b00,
@@ -30,7 +30,7 @@ typedef struct {
     bool player_hit;
     GAMESTATE gameState;
     int n;
-    pthread_mutex_t mutex;
+    chan_t* key_stroke_buff;
     char **print_buffer;
 } GAME;
 
@@ -38,8 +38,8 @@ bool createGame(int n, GAME **rockfall);
 bool destoryGame(GAME *rockfall);
 bool createGameArray(GAME *rockfall);
 bool freeGameArray(GAME *to_destroy);
-bool createMutex(GAME *rockfall);
-bool freeMutex(GAME *to_destroy);
+bool createKeyStrokeBuff(GAME *rockfall);
+bool freeKeyStrokeBuff(GAME *to_destory);
 bool createPrintBuffer(GAME *rockfall);
 bool freePrintBuffer(GAME *rockfall);
 
