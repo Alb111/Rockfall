@@ -1,0 +1,57 @@
+[
+  {
+    "arguments": [
+      "/usr/lib64/ccache/gcc",
+      "-Wall",
+      "-g",
+      "-c",
+      "main.c"
+    ],
+    "directory": "/home/alb123/coding/personal/Rockfall",
+    "file": "/home/alb123/coding/personal/Rockfall/main.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib64/ccache/gcc",
+      "-Wall",
+      "-g",
+      "-c",
+      "game.c"
+    ],
+    "directory": "/home/alb123/coding/personal/Rockfall",
+    "file": "/home/alb123/coding/personal/Rockfall/game.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib64/ccache/gcc",
+      "-Wall",
+      "-g",
+      "-c",
+      "art.c"
+    ],
+    "directory": "/home/alb123/coding/personal/Rockfall",
+    "file": "/home/alb123/coding/personal/Rockfall/art.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib64/ccache/gcc",
+      "-Wall",
+      "-g",
+      "-c",
+      "display.c"
+    ],
+    "directory": "/home/alb123/coding/personal/Rockfall",
+    "file": "/home/alb123/coding/personal/Rockfall/display.c"
+  },
+  {
+    "arguments": [
+      "/usr/lib64/ccache/gcc",
+      "-Wall",
+      "-g",
+      "-c",
+      "movement.c"
+    ],
+    "directory": "/home/alb123/coding/personal/Rockfall",
+    "file": "/home/alb123/coding/personal/Rockfall/movement.c"
+  }
+]

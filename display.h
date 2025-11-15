@@ -9,6 +9,6 @@
 #include "game.h"
 
 void printGame(GAME *rockfall);
-void printTitle();
+void printTitle(GAME *rockfall);
 
 #endif
